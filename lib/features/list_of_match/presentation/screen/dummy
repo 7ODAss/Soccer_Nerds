@@ -1,0 +1,173 @@
+
+/*Column(
+                children: [
+                  _TeamHeader(match: match),
+                  const SizedBox(height: 24),
+                  // Create a row for each statistic you want to display.
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Shots on Goal',
+                  ),
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Total Shots',
+                  ),
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Ball Possession',
+                  ),
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Total Passes',
+                  ),
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Fouls',
+                  ),
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Yellow Cards',
+                  ),
+                  _StatisticRow(
+                    homeStats: homeStats,
+                    awayStats: awayStats,
+                    statName: 'Corner Kicks',
+                  ),
+                ],
+              )*/
+
+/// A helper widget for the header showing the two team logos.
+class _TeamHeader extends StatelessWidget {
+  final LiveMatch match;
+
+  const _TeamHeader({required this.match});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CachedNetworkImage(imageUrl: match.home.logo ?? '', width: 50),
+        Text(
+          "VS",
+          style: GoogleFonts.lato(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade700,
+          ),
+        ),
+        CachedNetworkImage(imageUrl: match.away.logo ?? '', width: 50),
+      ],
+    );
+  }
+}
+
+/// A helper widget that displays a single row of statistics.
+class _StatisticRow extends StatelessWidget {
+  final MatchStatistics homeStats;
+  final MatchStatistics awayStats;
+  final String statName;
+
+  const _StatisticRow({
+    required this.homeStats,
+    required this.awayStats,
+    required this.statName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Find the specific statistic from the list for each team.
+    final homeStatValue =
+        homeStats.statistics
+            .firstWhere(
+              (s) => s.type == statName,
+              orElse: () => const Statistics(type: '', value: 0),
+            )
+            .value ??
+        '0';
+    final awayStatValue =
+        awayStats.statistics
+            .firstWhere(
+              (s) => s.type == statName,
+              orElse: () => const Statistics(type: '', value: 0),
+            )
+            .value ??
+        '0';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                homeStatValue.toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(statName, style: const TextStyle(color: Colors.grey)),
+              Text(
+                awayStatValue.toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          _StatProgressBar(homeValue: homeStatValue, awayValue: awayStatValue),
+        ],
+      ),
+    );
+  }
+}
+
+/// A custom progress bar to visualize the balance of a statistic.
+class _StatProgressBar extends StatelessWidget {
+  final dynamic homeValue;
+  final dynamic awayValue;
+
+  const _StatProgressBar({required this.homeValue, required this.awayValue});
+
+  @override
+  Widget build(BuildContext context) {
+    // Safely parse values, handling both integers and percentages (strings).
+    final double home =
+        double.tryParse(homeValue.toString().replaceAll('%', '')) ?? 0.0;
+    final double away =
+        double.tryParse(awayValue.toString().replaceAll('%', '')) ?? 0.0;
+    final double total = home + away;
+
+    // Calculate the ratio for the home team. If total is 0, default to 50%.
+    final double homeRatio = total > 0 ? home / total : 0.5;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: SizedBox(
+        height: 10,
+        child: Row(
+          children: [
+            Expanded(
+              flex: (homeRatio * 100).toInt(),
+              child: Container(color: Colors.orange.shade700),
+            ),
+            Expanded(
+              flex: ((1 - homeRatio) * 100).toInt(),
+              child: Container(color: Colors.grey.shade300),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
