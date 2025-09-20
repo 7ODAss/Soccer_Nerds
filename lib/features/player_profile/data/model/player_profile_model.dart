@@ -1,4 +1,4 @@
-import 'package:football_app/features/leagues/domain/entity/standing_league.dart';
+import 'package:football_app/features/leagues/domain/entity/player_profile.dart';
 
 class LeagueModel extends League{
   const LeagueModel({required super.id, required super.name, required super.season});

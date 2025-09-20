@@ -3,17 +3,17 @@ import '../../../../core/error/exception.dart';
 import '../../../../core/network/error_message_model.dart';
 import '../../../../core/utils/api_constant.dart';
 import '../../domain/usecase/get_standing_usecase.dart';
-import '../model/league_model.dart';
+import '../model/player_profile_model.dart';
 import '../model/standing_model.dart';
 
 abstract class BaseStandingLeagueRemoteDataSource {
-  Future<List<LeagueModel>> getLeague();
+  Future<List<PlayerProfileModel>> getLeague();
   Future<List<StandingModel>> getStanding(StandingParameters parameters);
 }
 
 class StandingLeagueRemoteDataSource extends BaseStandingLeagueRemoteDataSource {
   @override
-  Future<List<LeagueModel>> getLeague() async {
+  Future<List<PlayerProfileModel>> getLeague() async {
     final response = await Dio().get(
       ApiConstant.allLeague, // Corrected constant name
       options: Options(
@@ -26,11 +26,11 @@ class StandingLeagueRemoteDataSource extends BaseStandingLeagueRemoteDataSource 
           serverMessage: ErrorMessageModel.fromJson(response.data));
     } else if (response.statusCode == 200) {
       final List<dynamic> leagueData = response.data['response'];
-      // Filter the leagues that have standings coverage
+      // Filter the player_profile that have standings coverage
       return leagueData
           .where((leagueJson) =>
       leagueJson['seasons'][0]['coverage']['standings'] == true)
-          .map((leagueJson) => LeagueModel.fromJson(leagueJson))
+          .map((leagueJson) => PlayerProfileModel.fromJson(leagueJson))
           .toList();
     } else {
       throw ServerException(

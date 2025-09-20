@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../../core/utils/enums.dart';
-import '../../domain/entity/standing_league.dart';
+import '../../domain/entity/player_profile.dart';
 
 class StandingState extends Equatable {
   final List<League> leagues;
@@ -8,7 +8,7 @@ class StandingState extends Equatable {
   final String leaguesMessage;
   final League? selectedLeague;
 
-  final List<Standing> standings;
+  final List<Player> standings;
   final RequestState standingsState;
   final String standingsMessage;
 
@@ -29,7 +29,7 @@ class StandingState extends Equatable {
     RequestState? leaguesState,
     String? leaguesMessage,
     League? selectedLeague,
-    List<Standing>? standings,
+    List<Player>? standings,
     RequestState? standingsState,
     String? standingsMessage,
   }) {

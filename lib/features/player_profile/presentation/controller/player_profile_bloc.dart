@@ -8,7 +8,7 @@ import 'package:football_app/features/leagues/presentation/controller/standing_s
 
 import '../../../../core/usecase/base_usecase.dart';
 import '../../../../core/utils/enums.dart';
-import '../../domain/usecase/get_league_usecase.dart';
+import '../../domain/usecase/get_player_profile_usecase.dart';
 import '../../domain/usecase/get_standing_usecase.dart';
 
 class StandingBloc extends Bloc<StandingEvent, StandingState> {

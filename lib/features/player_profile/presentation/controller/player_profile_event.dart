@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:football_app/features/leagues/domain/entity/standing_league.dart';
+import 'package:football_app/features/leagues/domain/entity/player_profile.dart';
 
 abstract class StandingEvent extends Equatable {
   const StandingEvent();

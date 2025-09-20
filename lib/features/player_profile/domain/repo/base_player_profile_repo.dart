@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
-import '../entity/standing_league.dart';
+import '../entity/player_profile.dart';
 import '../usecase/get_standing_usecase.dart';
 
 abstract class BaseStandingLeagueRepo {
