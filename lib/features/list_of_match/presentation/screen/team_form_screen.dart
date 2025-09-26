@@ -8,7 +8,7 @@ import '../../../../core/theme/theme_mode.dart';
 class TeamFormScreen extends StatelessWidget {
   final TeamForm lineup;
 
-   TeamFormScreen({super.key, required this.lineup});
+  const TeamFormScreen({super.key, required this.lineup});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class TeamFormScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlayersList(List<Player> players, bool isStartingXI) {
+  Widget _buildPlayersList(List<PlayerTeam> players, bool isStartingXI) {
     if (players.isEmpty) {
       return Center(
         child: Text(
@@ -95,14 +95,13 @@ class TeamFormScreen extends StatelessWidget {
 }
 
 class _PlayerCard extends StatelessWidget {
-  final Player player;
+  final PlayerTeam player;
   final bool isStartingXI;
 
   const _PlayerCard({required this.player, required this.isStartingXI});
 
   @override
   Widget build(BuildContext context) {
-    final color1 = Theme.of(context).extension<AngledCardTheme>()!.color1;
     final color2 = Theme.of(context).extension<AngledCardTheme>()!.color2;
     final color3 = Theme.of(context).extension<AngledCardTheme>()!.color3;
 
@@ -132,7 +131,7 @@ class _PlayerCard extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: Text(
-            player.number?.toString() ?? '-',
+            player.number.toString() ?? '-',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

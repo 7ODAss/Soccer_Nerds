@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:football_app/core/theme/theme_mode.dart';
 import '../../core/utils/onboarding/app_icon.dart';
-import '../../core/utils/onboarding/app_text_style.dart';
 import '../onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 200,width: 200,child: SvgPicture.asset(AppIcon.splashIcon)),
-
             Text(
               'Soccer Nerds',
               style: TextStyle(

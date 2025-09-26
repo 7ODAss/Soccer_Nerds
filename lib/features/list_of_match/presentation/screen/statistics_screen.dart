@@ -1,17 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:football_app/core/theme/theme_mode.dart';
 import 'package:football_app/core/utils/enums.dart';
 import 'package:football_app/features/list_of_match/domain/entity/live_match.dart';
-import 'package:football_app/features/list_of_match/domain/entity/match_statistics.dart';
 import 'package:football_app/features/list_of_match/presentation/controller/live_match_details_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class StatisticsScreen extends StatelessWidget {
   final LiveMatch match;
 
-   StatisticsScreen({super.key, required this.match});
+   const StatisticsScreen({super.key, required this.match});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/features/list_of_match/domain/entity/live_match_details.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +7,7 @@ import '../upcoming_match_shared/upcoming_painting.dart';
 
 class EventIcon extends StatelessWidget {
   final LiveMatchDetails details;
-   EventIcon({super.key, required this.details});
+   const EventIcon({super.key, required this.details});
 
   Widget buildTrailing() {
     switch(details.type){

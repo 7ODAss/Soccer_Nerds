@@ -33,8 +33,8 @@ class Time extends Equatable{
   List<Object?> get props => [elapsed,extra];
   factory Time.fromJson(Map<String,dynamic> json){
     return Time(
-      elapsed: json['elapsed'],
-      extra: json['extra'],
+      elapsed: json['elapsed'] ?? 0,
+      extra: json['extra'] ?? 0,
     );
   }
 
@@ -52,9 +52,9 @@ class Team extends Equatable{
   List<Object?> get props => [id,name,logo];
   factory Team.fromJson(Map<String,dynamic> json){
     return Team(
-      id: json['id'] ,
-      name: json['name'],
-      logo: json['logo'] ,
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'None',
+      logo: json['logo'] ?? 'None',
     );
   }
 }
@@ -71,11 +71,12 @@ class Player extends Equatable{
   List<Object?> get props => [id,name];
   factory Player.fromJson(Map<String,dynamic> json){
     return Player(
-      id: json['id'] ,
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'None',
     );
   }
 }
+
 class Assist extends Equatable{
   final int? id;
   final String? name;
@@ -89,8 +90,8 @@ class Assist extends Equatable{
   List<Object?> get props => [id,name];
   factory Assist.fromJson(Map<String,dynamic> json){
     return Assist(
-      id: json['id'] ,
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'None',
     );
   }
 }

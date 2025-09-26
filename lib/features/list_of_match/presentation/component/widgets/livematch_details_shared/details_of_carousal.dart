@@ -1,14 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:football_app/features/ai/presentation/screen/aipreview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../domain/entity/live_match.dart';
-import '../../../controller/match_bloc.dart';
+import '../../../controller/live_match_details_bloc.dart';
 import '../livematch_shared/live_logo_name_team.dart';
 
 class DetailsOfCarousal extends StatelessWidget {
   final LiveMatch match;
-  const DetailsOfCarousal({super.key,required this.match});
+
+  const DetailsOfCarousal({super.key, required this.match});
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +46,17 @@ class DetailsOfCarousal extends StatelessWidget {
                         fit: StackFit.expand,
                         children: [
                           CircularProgressIndicator(
-                            value:
-                            progress > 1.0 ? 1.0 : progress,
+                            value: progress > 1.0 ? 1.0 : progress,
                             strokeWidth: 3,
                             backgroundColor: Colors.amber,
-                            valueColor:
-                            const AlwaysStoppedAnimation<
-                                Color
-                            >(Colors.white),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
                           ),
                           Center(
                             child: Text(
-                              "${match.fixture.status!.elapsedTime.toString() ?? '--'}'",
+                              "${match.fixture.status!.elapsedTime.toString() ??
+                                  '--'}'",
                               style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                   color: Colors.white,
@@ -79,6 +79,43 @@ class DetailsOfCarousal extends StatelessWidget {
                         fontSize: 28,
                       ),
                     ),
+                  ),
+                  const SizedBox(height: 4),
+                  BlocBuilder<LiveMatchDetailsBloc, LiveMatchDetailsState>(
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<LiveMatchDetailsBloc>().add(GetAiMatchPreviewEvent());
+                          String? result=state.aiMatchPreview;
+                          if(result != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  AiPreview(result: result,)),
+                            );
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('data is being processed... please wait!',style: TextStyle(fontSize: 18),),
+                                duration: Duration(seconds: 2),
+                                behavior: SnackBarBehavior.floating,
+                              )
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Ai Analyst >>',
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

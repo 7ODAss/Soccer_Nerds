@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_details_shared/event_icon.dart';
@@ -27,17 +26,6 @@ class LiveMatchDetailsComponent extends StatelessWidget {
           case RequestState.success:
             if(state.liveMatchDetails.isEmpty) {
               return Icon(Icons.sports_soccer, color: Colors.grey,size: 100,);
-            } if (state.liveMatchDetails.isEmpty) {
-              return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.hourglass_empty, color: Colors.grey, size: 60),
-                    SizedBox(height: 10),
-                    Text("No events have occurred yet."),
-                  ],
-                ),
-              );
             } else {
               return ListView.builder(
                 itemCount: state.liveMatchDetails.length,

@@ -15,8 +15,8 @@ class LiveMatchDetailsModel extends LiveMatchDetails {
       team: Team.fromJson(json['team']),
       player: Player.fromJson(json['player']),
       assist: Assist.fromJson( json['assist']),
-      type: json['type'],
-      detail: json['detail'],
+      type: json['type'] ?? 'None',
+      detail: json['detail'] ?? 'None',
     );
   }
 }

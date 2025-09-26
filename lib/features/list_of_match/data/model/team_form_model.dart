@@ -1,6 +1,4 @@
 import 'package:football_app/features/list_of_match/domain/entity/team_form.dart';
-
-import '../../domain/entity/live_match.dart';
 import 'live_match_model.dart';
 
 class TeamFormModel extends TeamForm {
@@ -21,7 +19,7 @@ class TeamFormModel extends TeamForm {
   }
 }
 
-class PlayerModel extends Player {
+class PlayerModel extends PlayerTeam {
   const PlayerModel({
     required super.id,
     required super.name,

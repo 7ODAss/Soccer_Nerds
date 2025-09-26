@@ -1,20 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_shared/live_action.dart';
 import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_shared/live_carousal_details.dart';
-import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_shared/live_information.dart';
-import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_shared/live_logo_name_team.dart';
 import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_shared/live_background.dart';
-import 'package:football_app/features/list_of_match/presentation/component/widgets/livematch_shared/live_status.dart';
-import 'package:football_app/features/list_of_match/presentation/screen/live_match_details_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
-import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/enums.dart';
-import '../controller/live_match_details_bloc.dart';
 import '../controller/match_bloc.dart';
 
 class LiveMatchComponent extends StatelessWidget {
@@ -22,21 +12,25 @@ class LiveMatchComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("live match");
-    final carouselHeight = MediaQuery.of(context).size.height * 0.25;
+    debugPrint("live match");
+    final carouselHeight = MediaQuery
+        .of(context)
+        .size
+        .height * 0.25;
     return BlocBuilder<MatchBloc, MatchState>(
-      buildWhen:
-          (previous, current) =>
-              previous.liveMatch != current.liveMatch ||
-              previous.liveMatchState != current.liveMatchState,
+      buildWhen: (previous, current) {
+       return previous.liveMatch != current.liveMatch ||
+            previous.liveMatchState != current.liveMatchState;
+      },
       builder: (context, state) {
+
+        //print("LiveMatchComponent BUILDER: liveMatchState=${state.liveMatchState}, liveMatch length=${state.liveMatch.length}");
         switch (state.liveMatchState) {
           case RequestState.loading:
             return SizedBox(
               height: carouselHeight,
               child: Center(child: CircularProgressIndicator()),
             );
-
           case RequestState.error:
             return Center(
               child: Column(
@@ -70,7 +64,8 @@ class LiveMatchComponent extends StatelessWidget {
                 itemCount: state.liveMatch.length,
                 itemBuilder: (context, index, realIndex) {
                   final match = state.liveMatch[index];
-                  final progress = (match.fixture.status!.elapsedTime ?? 0) / 90.0;
+                  final progress = (match.fixture.status!.elapsedTime ?? 0) /
+                      90.0;
                   return Stack(
                     alignment: Alignment.bottomRight,
                     children: [
@@ -90,7 +85,8 @@ class LiveMatchComponent extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.8),
                               ),
                             ),
-                            LiveCarousalDetails(match: match,progress: progress,),
+                            LiveCarousalDetails(
+                              match: match, progress: progress,),
                           ],
                         ),
                       ),

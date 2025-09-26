@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../../../core/services/service_locator.dart';
 import '../../../../../../core/theme/controller/theme_bloc.dart';
+import 'custom_search_delegation.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
    static const double _height = 100;
    final String title;
    final bool needBack;
-   const CustomAppbar({super.key, required this.title,required this.needBack});
+   const CustomAppbar({super.key, required this.title,required this.needBack,});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +44,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
+            IconButton(onPressed: (){
+              showSearch(context: context, delegate: CustomSearchDelegate());
+            }, icon: Icon(Icons.search,size: 35,color: Colors.white,)),
             BlocBuilder<ThemeBloc, ThemeState>(
               builder: (context, state) {
                 return IconButton(

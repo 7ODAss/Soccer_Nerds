@@ -27,18 +27,18 @@ class LiveAction extends StatelessWidget {
                 getIt<LiveMatchDetailsBloc>()
                   ..add(
                     GetLiveMatchDetailsEvent(
-                      id: 592872,
+                      id: match.fixture.id,
                       //592872
                     ),
                   )
                   ..add(
                     GetTeamFormEvent(
-                      id: 592872,
+                      id: match.fixture.id,
                     ),
                   )
                   ..add(
                     GetMatchStatisticsEvent(
-                      id: 592872,
+                      id: match.fixture.id,
                     ),
                   ),
                 child: LiveMatchDetailsScreen(

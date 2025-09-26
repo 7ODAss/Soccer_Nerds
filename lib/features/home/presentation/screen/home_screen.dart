@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:football_app/features/list_of_match/presentation/component/widgets/common/custom_appbar.dart';
-import '../../../../core/services/service_locator.dart';
 import '../component/model/nav_model.dart';
 import '../component/widget/build_nav_item.dart';
 import '../controller/home_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-   HomeScreen({super.key});
+   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

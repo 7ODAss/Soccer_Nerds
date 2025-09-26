@@ -87,7 +87,7 @@ class StatusModel extends Status{
     required super.long,
   });
   factory StatusModel.fromJson(Map<String, dynamic> json) {
-    return StatusModel(elapsedTime: json['elapsed'], long: json['long']);
+    return StatusModel(elapsedTime: json['elapsed'] ?? 1, long: json['long']);
   }
 
   Map<String, dynamic> toJson() => {'elapsed': elapsedTime, 'long': long};

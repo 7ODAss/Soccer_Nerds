@@ -40,3 +40,5 @@ class ChangeTeamEvent extends LiveMatchDetailsEvent {
   @override
   List<Object> get props => [teamIndex];
 }
+
+class GetAiMatchPreviewEvent extends LiveMatchDetailsEvent {}

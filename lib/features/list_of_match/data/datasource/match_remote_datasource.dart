@@ -1,8 +1,9 @@
-import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:football_app/core/network/error_message_model.dart';
 import 'package:football_app/features/list_of_match/domain/usecase/get_upcoming_match_usecase.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/utils/api_constant.dart';
+import '../../../../core/utils/dio_config.dart';
 import '../../domain/usecase/get_live_match_details_usecase.dart';
 import '../../domain/usecase/get_match_statistics_usecase.dart';
 import '../../domain/usecase/get_team_form_usecase.dart';
@@ -30,20 +31,13 @@ abstract class BaseMatchRemoteDataSource {
 class MatchRemoteDataSource extends BaseMatchRemoteDataSource {
   @override
   Future<List<LiveMatchModel>> getLiveMatch() async {
-    final response = await Dio().get(
-      ApiConstant.fixtureLive,
-      options: Options(headers: ApiConstant.headers),
-    );
+    final response = await DioConfig.getData(path: ApiConstant.fixtureLive);
     if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
       throw ServerException(
         serverMessage: ErrorMessageModel.fromJson(response.data),
       );
     } else if (response.statusCode == 200) {
-      return List<LiveMatchModel>.from(
-        (response.data['response'] as List).map(
-          (e) => LiveMatchModel.fromJson(e),
-        ),
-      ).toList();
+     return List<LiveMatchModel>.from((response.data['response'] as List).map((e) => LiveMatchModel.fromJson(e),),).toList();
     } else {
       throw ServerException(
         serverMessage: ErrorMessageModel.fromJson(response.data),
@@ -55,10 +49,7 @@ class MatchRemoteDataSource extends BaseMatchRemoteDataSource {
   Future<List<LiveMatchModel>> getUpcomingMatch(
     UpcomingMatchParameters parameters,
   ) async {
-    final response = await Dio().get(
-      ApiConstant.upcomingMatch(parameters.date),
-      options: Options(headers: ApiConstant.headers),
-    );
+    final response = await DioConfig.getData(path:  ApiConstant.upcomingMatch(parameters.date));
     if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
       throw ServerException(
         serverMessage: ErrorMessageModel.fromJson(response.data),
@@ -80,15 +71,16 @@ class MatchRemoteDataSource extends BaseMatchRemoteDataSource {
   Future<List<LiveMatchDetailsModel>> getLiveMatchDetails(
     LiveMatchDetailsParameters parameters,
   ) async {
-    final response = await Dio().get(
-      ApiConstant.liveMatchDetails(parameters.id),
-      options: Options(headers: ApiConstant.headers),
-    );
+    final response = await DioConfig.getData(path:  ApiConstant.liveMatchDetails(parameters.id));
     if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
       throw ServerException(
         serverMessage: ErrorMessageModel.fromJson(response.data),
       );
     } else if (response.statusCode == 200) {
+      if (response.data['response'].isEmpty) {
+        debugPrint("API returned an empty list for lineups for fixture ID: ${parameters.id}");
+        return [];
+      }
       return List<LiveMatchDetailsModel>.from(
         (response.data['response'] as List).map(
           (e) => LiveMatchDetailsModel.fromJson(e),
@@ -103,19 +95,15 @@ class MatchRemoteDataSource extends BaseMatchRemoteDataSource {
 
   @override
   Future<List<TeamFormModel>> getTeamForm(TeamFormParameters parameters) async {
-    final response = await Dio().get(
-      ApiConstant.liveMatchLineUp(parameters.id),
-      options: Options(headers: ApiConstant.headers),
-    );
+    final response = await DioConfig.getData(path: ApiConstant.liveMatchLineUp(parameters.id));
     if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
       throw ServerException(
         serverMessage: ErrorMessageModel.fromJson(response.data),
       );
     } else if (response.statusCode == 200) {
-      print('TeamForm datasource data');
-      print(response.data);
+      debugPrint('TeamForm datasource data');
       if (response.data['response'].isEmpty) {
-        print("API returned an empty list for lineups for fixture ID: ${parameters.id}");
+        debugPrint("API returned an empty list for lineups for fixture ID: ${parameters.id}");
         return [];
       }
       return List<TeamFormModel>.from(
@@ -132,17 +120,13 @@ class MatchRemoteDataSource extends BaseMatchRemoteDataSource {
 
   @override
   Future<List<MatchStatisticsModel>> getMatchStatistics(MatchStatisticsParameters parameters) async{
-    final response = await Dio().get(
-      ApiConstant.liveMatchStatistics(parameters.id),
-      options: Options(headers: ApiConstant.headers),
-    );
+    final response = await DioConfig.getData(path: ApiConstant.liveMatchStatistics(parameters.id));
     if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
       throw ServerException(
         serverMessage: ErrorMessageModel.fromJson(response.data),
       );
     } else if (response.statusCode == 200) {
-      print('statistics datasource data');
-      print(response.data);
+      debugPrint('statistics datasource data');
       return List<MatchStatisticsModel>.from(
         (response.data['response'] as List).map(
               (e) => MatchStatisticsModel.fromJson(e),

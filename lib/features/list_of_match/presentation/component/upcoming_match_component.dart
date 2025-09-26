@@ -6,20 +6,20 @@ import 'package:football_app/features/list_of_match/presentation/component/widge
 import 'package:football_app/features/list_of_match/presentation/component/widgets/upcoming_match_shared/upcoming_logo_name_team_right.dart';
 import 'package:football_app/features/list_of_match/presentation/component/widgets/upcoming_match_shared/upcoming_painting.dart';
 import 'package:football_app/features/list_of_match/presentation/controller/match_bloc.dart';
-import '../../../../core/theme/controller/theme_bloc.dart';
 import '../../../../core/theme/theme_mode.dart';
 import '../../../../core/utils/enums.dart';
 
 class UpcomingMatchComponent extends StatelessWidget {
-   UpcomingMatchComponent({super.key});
+   const UpcomingMatchComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print("upcoming match ");
+    debugPrint("upcoming match");
     return BlocBuilder<MatchBloc, MatchState>(
-      buildWhen: (previous, current) =>
-          previous.upcomingMatchState != current.upcomingMatchState,
+      buildWhen: (previous, current) {return previous.upcomingMatch != current.upcomingMatch||
+          previous.upcomingMatchState != current.upcomingMatchState;},
       builder: (context, state) {
+       // print("UpcomingMatchComponent BUILDER: upcomingMatchState=${state.upcomingMatchState}, upcomingMatch length=${state.upcomingMatch.length}");
         switch (state.upcomingMatchState) {
           case RequestState.loading:
             return const Expanded(

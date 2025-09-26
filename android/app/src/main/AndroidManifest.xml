@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="football_app"
+        android:label="Soccer Nerds"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

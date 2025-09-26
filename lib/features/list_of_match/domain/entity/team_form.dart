@@ -5,8 +5,8 @@ import 'live_match.dart';
 
 class TeamForm extends Equatable{
   final Team team; //Team class from live match entity
-  final List<Player>mainPlayers;
-  final List<Player>substitutes;
+  final List<PlayerTeam>mainPlayers;
+  final List<PlayerTeam>substitutes;
   final String? formation;
 
   const TeamForm({
@@ -21,13 +21,13 @@ class TeamForm extends Equatable{
 }
 
 
-class Player extends Equatable{
+class PlayerTeam extends Equatable{
   final int id;
   final String name;
   final int number;
   final String position;
 
-  const Player({
+  const PlayerTeam({
     required this.id,
     required this.name,
     required this.number,

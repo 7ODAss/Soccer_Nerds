@@ -1,74 +1,100 @@
-import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:football_app/core/utils/dio_config.dart';
+import 'package:football_app/features/player_profile/data/model/player_profile_model.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/network/error_message_model.dart';
 import '../../../../core/utils/api_constant.dart';
-import '../../domain/usecase/get_standing_usecase.dart';
-import '../model/player_profile_model.dart';
-import '../model/standing_model.dart';
+import '../../domain/usecase/get_player_details_usecase.dart';
+import '../../domain/usecase/get_player_profile_search_usecase.dart';
+import '../../domain/usecase/get_player_profile_usecase.dart';
+import '../model/player_details_model.dart';
 
-abstract class BaseStandingLeagueRemoteDataSource {
-  Future<List<PlayerProfileModel>> getLeague();
-  Future<List<StandingModel>> getStanding(StandingParameters parameters);
+abstract class BasePlayerProfileRemoteDataSource {
+  Future<List<PlayerProfileModel>> getPlayerProfile(PlayerProfileParameters parameter);
+  Future<List<PlayerDetailsModel>> getPlayerDetails(PlayerDetailsParameters parameter);
+  Future<List<PlayerProfileModel>> getPlayerProfileSearch(PlayerProfileSearchParameters parameter);
 }
 
-class StandingLeagueRemoteDataSource extends BaseStandingLeagueRemoteDataSource {
+class PlayerProfileRemoteDataSource extends BasePlayerProfileRemoteDataSource {
   @override
-  Future<List<PlayerProfileModel>> getLeague() async {
-    final response = await Dio().get(
-      ApiConstant.allLeague, // Corrected constant name
-      options: Options(
-        headers: ApiConstant.headers,
-      ),
-    );
-    if (response.data['errors'] != null &&
-        response.data['errors'].isNotEmpty) {
-      throw ServerException(
-          serverMessage: ErrorMessageModel.fromJson(response.data));
-    } else if (response.statusCode == 200) {
-      final List<dynamic> leagueData = response.data['response'];
-      // Filter the player_profile that have standings coverage
-      return leagueData
-          .where((leagueJson) =>
-      leagueJson['seasons'][0]['coverage']['standings'] == true)
-          .map((leagueJson) => PlayerProfileModel.fromJson(leagueJson))
-          .toList();
-    } else {
-      throw ServerException(
-          serverMessage: ErrorMessageModel.fromJson(response.data));
-    }
-  }
-
-  @override
-  Future<List<StandingModel>> getStanding(StandingParameters parameters) async {
-    final response = await Dio().get(
-      ApiConstant.standingsByLeague(parameters.leagueId, parameters.season),
-      options: Options(
-        headers: ApiConstant.headers,
-      ),
-    );
-    if (response.data['errors'] != null &&
-        response.data['errors'].isNotEmpty) {
-      throw ServerException(
-          serverMessage: ErrorMessageModel.fromJson(response.data));
-    } else if (response.statusCode == 200) {
-      // --- THIS IS THE FIX ---
-
-      // 1. Safety Check: If the 'response' list is empty, return an empty list.
-      if (response.data['response'].isEmpty) {
-        return [];
+    Future<List<PlayerProfileModel>> getPlayerProfile(PlayerProfileParameters parameter) async {
+      final response = await DioConfig.getData(path: ApiConstant.allPlayersProfile(parameter.page));
+      if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
+        throw ServerException(
+          serverMessage: ErrorMessageModel.fromJson(response.data),
+        );
+      } else if (response.statusCode == 200) {
+        return List<PlayerProfileModel>.from((response.data['response'] as List).map((e) => PlayerProfileModel.fromJson(e))).toList();
       }
+      else{
+        throw ServerException(
+          serverMessage: ErrorMessageModel.fromJson(response.data),
+        );
+      }
+  }
 
-      // 2. Correctly navigate to the deeply nested list of standings.
-      final List<dynamic> standingsData =
-      response.data['response'][0]['league']['standings'][0];
-
-      // 3. Map over the correct list.
-      return standingsData
-          .map((e) => StandingModel.fromJson(e))
-          .toList();
-    } else {
+  @override
+  Future<List<PlayerDetailsModel>> getPlayerDetails(PlayerDetailsParameters parameter) async{
+    final response = await DioConfig.getData(path: ApiConstant.playerDetails(parameter.id));
+    if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
       throw ServerException(
-          serverMessage: ErrorMessageModel.fromJson(response.data));
+        serverMessage: ErrorMessageModel.fromJson(response.data),
+      );
+    } else if (response.statusCode == 200) {
+      debugPrint('playerDetails');
+      return List<PlayerDetailsModel>.from((response.data['response'] as List).map((e) => PlayerDetailsModel.fromJson(e))).toList();
+    }
+    else{
+      throw ServerException(
+        serverMessage: ErrorMessageModel.fromJson(response.data),
+      );
     }
   }
+
+  @override
+  Future<List<PlayerProfileModel>> getPlayerProfileSearch(PlayerProfileSearchParameters parameter) async{
+    final response = await DioConfig.getData(path: ApiConstant.searchPlayer(parameter.name));
+    if (response.data['errors'] != null && response.data['errors'].isNotEmpty) {
+      throw ServerException(
+        serverMessage: ErrorMessageModel.fromJson(response.data),
+      );
+    } else if (response.statusCode == 200) {
+      debugPrint('playerDetails');
+      return List<PlayerProfileModel>.from((response.data['response'] as List).map((e) => PlayerProfileModel.fromJson(e))).toList();
+    }
+    else{
+      throw ServerException(
+        serverMessage: ErrorMessageModel.fromJson(response.data),
+      );
+    }
+  }
+
 }
+
+
+//
+// class AuthInterceptor extends InterceptorsWrapper{  // add logic to request or response or error
+//   @override
+//   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+//     // Add token or authentication headers here
+//     options.headers={
+//       'Authorization': 'Bearer token'
+//     };
+//     super.onRequest(options, handler);
+//     //handle request
+//     handler.next(options);
+//   }
+//   @override
+//   void onResponse(Response response, ResponseInterceptorHandler handler) {
+//     print(response.data);
+//     super.onResponse(response, handler);
+//     handler.next(response);
+//   }
+//
+//   @override
+//   void onError(DioException err, ErrorInterceptorHandler handler) {
+//     print('Error: ${err.message}');
+//     super.onError(err, handler);
+//     handler.next(err);
+//   }
+// }

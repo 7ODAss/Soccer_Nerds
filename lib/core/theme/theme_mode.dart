@@ -10,6 +10,7 @@ ThemeData getDarkMode() =>
             color3: Colors.red,
           ),
         ],
+        cardTheme: CardThemeData(color: Color(0xFF185ADB)),
         appBarTheme: AppBarTheme(
           backgroundColor: Color(0xFF185ADB),
           iconTheme: IconThemeData(color: Colors.white),
@@ -58,7 +59,7 @@ ThemeData getDarkMode() =>
           ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.red,
         ),
         progressIndicatorTheme: ProgressIndicatorThemeData(
             color: Color(0xFF185ADB)
@@ -75,6 +76,7 @@ ThemeData getLightMode() =>
             //color4: Colors.blue.shade700,
           ),
         ],
+        cardTheme: CardThemeData(color: Colors.amber.shade600),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.orange,
           iconTheme: IconThemeData(color: Colors.black),

@@ -16,39 +16,36 @@ part of 'live_match_details_bloc.dart';
    final int index;
    final int teamIndex;
 
+   final String? aiMatchPreview;
+
    const LiveMatchDetailsState({
      this.liveMatchDetails = const [],
      this.liveMatchDetailsState = RequestState.loading,
      this.liveMatchDetailsMessage = '',
-
      this.teamForm = const [],
      this.teamFormState = RequestState.loading,
      this.teamFormMessage = '',
-
      this.statistics = const [],
      this.statisticsState = RequestState.loading,
      this.statisticsMessage = '',
-
      this.index = 0,
      this.teamIndex = 0,
-
+     this.aiMatchPreview,
    });
 
    LiveMatchDetailsState copyWith({
      List<LiveMatchDetails>? liveMatchDetails,
      RequestState? liveMatchDetailsState,
      String? liveMatchDetailsMessage,
-
      List<TeamForm>? teamForm,
      RequestState? teamFormState,
      String? teamFormMessage,
-
      List<MatchStatistics>?statistics,
      RequestState?statisticsState,
      String?statisticsMessage,
-
      int?index,
      int?teamIndex,
+     String? aiMatchPreview,
    }) {
      return LiveMatchDetailsState(
        liveMatchDetails: liveMatchDetails ?? this.liveMatchDetails,
@@ -65,6 +62,7 @@ part of 'live_match_details_bloc.dart';
 
        index: index ?? this.index,
        teamIndex: teamIndex ?? this.teamIndex,
+       aiMatchPreview: aiMatchPreview ?? this.aiMatchPreview,
      );
    }
 
@@ -84,5 +82,6 @@ part of 'live_match_details_bloc.dart';
 
      index,
      teamIndex,
+     aiMatchPreview,
    ];
 }

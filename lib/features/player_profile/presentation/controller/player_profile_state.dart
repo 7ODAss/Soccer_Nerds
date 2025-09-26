@@ -1,57 +1,76 @@
 import 'package:equatable/equatable.dart';
+import 'package:football_app/features/player_profile/data/model/player_profile_model.dart';
 import '../../../../core/utils/enums.dart';
-import '../../domain/entity/player_profile.dart';
+import '../../data/model/player_details_model.dart';
 
-class StandingState extends Equatable {
-  final List<League> leagues;
-  final RequestState leaguesState;
-  final String leaguesMessage;
-  final League? selectedLeague;
+class PlayerProfileState extends Equatable {
+  final List<PlayerProfileModel> playerProfile;
+  final RequestState playerProfileState;
+  final String playerProfileMessage;
+  final List<PlayerDetailsModel> playerDetails;
+  final RequestState playerDetailsState;
+  final String playerDetailsMessage;
+  final List<PlayerProfileModel> playerProfileSearch;
+  final RequestState playerProfileSearchState;
+  final String playerProfileSearchMessage;
 
-  final List<Player> standings;
-  final RequestState standingsState;
-  final String standingsMessage;
+  final int pageIndex;
 
-  const StandingState({
-    this.leagues = const [],
-    this.leaguesState = RequestState.loading,
-    this.leaguesMessage = '',
-    this.selectedLeague,
+  const PlayerProfileState({
+    this.playerProfile = const [],
+    this.playerProfileState = RequestState.loading,
+    this.playerProfileMessage = '',
+    this.playerDetails = const [],
+    this.playerDetailsState = RequestState.loading,
+    this.playerDetailsMessage = '',
+    this.playerProfileSearch = const [],
+    this.playerProfileSearchState = RequestState.loading,
+    this.playerProfileSearchMessage = '',
 
-    this.standings = const [],
-    this.standingsState = RequestState.loading,
-    this.standingsMessage = '',
+    this.pageIndex = 1,
   });
 
 
-  StandingState copyWith({
-    List<League>? leagues,
-    RequestState? leaguesState,
-    String? leaguesMessage,
-    League? selectedLeague,
-    List<Player>? standings,
-    RequestState? standingsState,
-    String? standingsMessage,
+  PlayerProfileState copyWith({
+    List<PlayerProfileModel>? playerProfile,
+    RequestState? playerProfileState,
+    String? playerProfileMessage,
+    List<PlayerDetailsModel>? playerDetails,
+    RequestState? playerDetailsState,
+    String? playerDetailsMessage,
+    List<PlayerProfileModel>? playerProfileSearch,
+    RequestState? playerProfileSearchState,
+    String? playerProfileSearchMessage,
+
+    int? pageIndex,
   }) {
-    return StandingState(
-      leagues: leagues ?? this.leagues,
-      leaguesState: leaguesState ?? this.leaguesState,
-      leaguesMessage: leaguesMessage ?? this.leaguesMessage,
-      selectedLeague: selectedLeague ?? this.selectedLeague,
-      standings: standings ?? this.standings,
-      standingsState: standingsState ?? this.standingsState,
-      standingsMessage: standingsMessage ?? this.standingsMessage,
+    return PlayerProfileState(
+      playerProfile: playerProfile ?? this.playerProfile,
+      playerProfileState: playerProfileState ?? this.playerProfileState,
+      playerProfileMessage: playerProfileMessage ?? this.playerProfileMessage,
+      playerDetails: playerDetails ?? this.playerDetails,
+      playerDetailsState: playerDetailsState ?? this.playerDetailsState,
+      playerDetailsMessage: playerDetailsMessage ?? this.playerDetailsMessage,
+      playerProfileSearch: playerProfileSearch ?? this.playerProfileSearch,
+      playerProfileSearchState: playerProfileSearchState ?? this.playerProfileSearchState,
+      playerProfileSearchMessage: playerProfileSearchMessage ?? this.playerProfileSearchMessage,
+
+      pageIndex: pageIndex ?? this.pageIndex,
     );
   }
 
   @override
   List<Object?> get props => [
-    leagues,
-    leaguesState,
-    leaguesMessage,
-    selectedLeague,
-    standings,
-    standingsState,
-    standingsMessage,
+    playerProfile,
+    playerProfileState,
+    playerProfileMessage,
+    playerDetails,
+    playerDetailsState,
+    playerDetailsMessage,
+    playerProfileSearch,
+    playerProfileSearchState,
+    playerProfileSearchMessage,
+
+    pageIndex,
   ];
 }

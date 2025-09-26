@@ -19,7 +19,6 @@ class MatchState extends Equatable {
     this.upcomingMatchMessage = '',
 
     this.favoriteTeamIds = const [],
-
   });
 
   MatchState copyWith({
@@ -35,7 +34,6 @@ class MatchState extends Equatable {
     List<TeamForm>? teamForm,
     RequestState? teamFormState,
     String? teamFormMessage,
-
   }) {
     return MatchState(
       liveMatch: liveMatch ?? this.liveMatch,
@@ -46,7 +44,6 @@ class MatchState extends Equatable {
       upcomingMatchMessage: upcomingMatchMessage ?? this.upcomingMatchMessage,
 
       favoriteTeamIds: favoriteTeamIds ?? this.favoriteTeamIds,
-
     );
   }
 
@@ -58,7 +55,6 @@ class MatchState extends Equatable {
     upcomingMatch,
     upcomingMatchState,
     upcomingMatchMessage,
-
     favoriteTeamIds,
   ];
 }

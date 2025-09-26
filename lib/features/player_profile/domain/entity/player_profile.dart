@@ -1,32 +1,33 @@
 import 'package:equatable/equatable.dart';
 
-class Standing extends Equatable {
-  final int rank;
-  final String teamName;
-  final String teamLogo;
-  final int points;
-  final int played;
+class PlayerProfile extends Equatable {
+  final int id;
+  final String name;
+  final String firstName;
+  final String lastName;
+  final int age;
+  final String nationality;
+  final int number;
+  final String position;
+  final String height;
+  final String weight;
+  final String photo;
 
-  const Standing({
-    required this.rank,
-    required this.teamName,
-    required this.teamLogo,
-    required this.points,
-    required this.played,
+
+  const PlayerProfile({
+    required this.id,
+    required this.name,
+    required this.firstName,
+    required this.lastName,
+    required this.age,
+    required this.nationality,
+    required this.number,
+    required this.position,
+    required this.height,
+    required this.weight,
+    required this.photo,
   });
 
   @override
-  List<Object?> get props => [rank, teamName, teamLogo, points, played];
-}
-
-
-class League extends Equatable {
-  final int id;
-  final String name;
-  final int season;
-
-  const League({required this.id, required this.name, required this.season});
-
-  @override
-  List<Object?> get props => [id, name, season];
+  List<Object?> get props => [id, name, firstName, lastName, age, nationality, number, position, height, weight, photo];
 }

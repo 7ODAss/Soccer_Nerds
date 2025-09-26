@@ -81,7 +81,6 @@ class LiveMatchDetailsScreen extends StatelessWidget {
                     TeamFormScreen(lineup: state.teamForm[1]), // Away Team
                   ];
                 }
-
                 return Column(
                   children: [
                     Row(

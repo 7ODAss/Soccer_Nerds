@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:football_app/core/theme/theme_mode.dart';
 import '../model/onboarding_model.dart';
 
 class OnboardingItem extends StatelessWidget {

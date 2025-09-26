@@ -9,7 +9,7 @@ class AngledCard extends StatelessWidget {
   final Color color2;
   final double angle;
 
-   AngledCard({
+   const AngledCard({
     super.key,
     required this.child,
     required this.color1,

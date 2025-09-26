@@ -33,10 +33,7 @@ class LiveCarousalDetails extends StatelessWidget {
                 LiveStatus(
                   progress: progress,
                   elapsedTime:
-                  match
-                      .fixture
-                      .status!
-                      .elapsedTime!,
+                  match.fixture.status!.elapsedTime!,
                   homeGoals: match.goal.home,
                   awayGoals: match.goal.away,
                 ),

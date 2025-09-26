@@ -4,6 +4,7 @@ class ApiConstant {
   static Map<String, String> headers = {
     "x-rapidapi-host": "v3.football.api-sports.io",
     "x-rapidapi-key": apiKey,
+    //"Authorization": "Bearer token"
   };
 
   static const String fixtureLive = "$baseUrl/fixtures?live=all";
@@ -17,8 +18,7 @@ class ApiConstant {
 
   static String liveMatchStatistics(int id)=> "$baseUrl/fixtures/statistics?fixture=$id";
 
-  static String allLeague = "$baseUrl/leagues?current=true";
-
-  static String standingsByLeague(int leagueId, int season) =>
-      "$baseUrl/standings?league=$leagueId&season=$season";
+  static String allPlayersProfile(int page) => "$baseUrl/players/profiles?page=$page";
+  static String playerDetails(int id) => "$baseUrl/players?id=$id&season=2023";
+  static String searchPlayer(String name) => "$baseUrl/players/profiles?search=$name";
 }

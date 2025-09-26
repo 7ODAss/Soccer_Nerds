@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:football_app/features/ai/service/aianalystservice.dart';
 import 'package:football_app/features/list_of_match/domain/entity/match_statistics.dart';
 
+import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/enums.dart';
 import '../../domain/entity/live_match_details.dart';
 import '../../domain/entity/team_form.dart';
@@ -31,13 +33,13 @@ class LiveMatchDetailsBloc extends Bloc<LiveMatchDetailsEvent, LiveMatchDetailsS
     on<ChangeTeamEvent>((event, emit) {
       emit(state.copyWith(teamIndex: event.teamIndex));
     });
+    on<GetAiMatchPreviewEvent>(getAiMatchPreview);
   }
 
   Future<void> getLiveMatchDetails(
     GetLiveMatchDetailsEvent event,
     Emitter<LiveMatchDetailsState> emit,
   ) async {
-    emit(state.copyWith(liveMatchDetailsState: RequestState.loading));
     final result = await getLiveMatchDetailsUseCase(
       LiveMatchDetailsParameters(id: event.id),
     );
@@ -48,7 +50,7 @@ class LiveMatchDetailsBloc extends Bloc<LiveMatchDetailsEvent, LiveMatchDetailsS
           liveMatchDetailsState: RequestState.error,
         ),
       ),
-      (r) => emit(
+      (r)  => emit(
         state.copyWith(
           liveMatchDetailsState: RequestState.success,
           liveMatchDetails: r,
@@ -89,5 +91,25 @@ class LiveMatchDetailsBloc extends Bloc<LiveMatchDetailsEvent, LiveMatchDetailsS
           emit(state.copyWith(statisticsState: RequestState.success, statistics: r)),
 
     );
+  }
+
+  FutureOr<void> getAiMatchPreview(GetAiMatchPreviewEvent event, Emitter<LiveMatchDetailsState> emit) async{
+    if (state.liveMatchDetails == null || state.liveMatchDetails!.isEmpty) {
+      emit(state.copyWith(aiMatchPreview: "Match details not loaded. Cannot generate preview."));
+      return;
+    }
+
+    // You might want to indicate that AI analysis is in progress
+    // This could be a specific field in the state e.g., aiPreviewStatus
+    // For simplicity here, we'll just update aiMatchPreview when done.
+    // emit(state.copyWith(aiMatchPreview: "Generating AI insight...")); // Temporary message
+
+
+    final String aiPreviewText = await getIt<AiAnalystService>().analyzeMatch(
+      state.liveMatchDetails, // This is a single LiveMatchDetails object
+      state.statistics,   // This is List<MatchStatistics>
+    );
+
+    emit(state.copyWith(aiMatchPreview: aiPreviewText));
   }
 }

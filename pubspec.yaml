@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^2.5.3
   smooth_page_indicator: ^1.2.1
   flutter_svg: ^2.2.0
+  google_generative_ai: ^0.4.7
 
 dev_dependencies:
   flutter_test:
@@ -73,10 +74,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/splash_icon.svg
-    - assets/images/boarding1.svg
-    - assets/images/boarding2.svg
-    - assets/images/boarding3.svg
+    - assets/images/
 
   fonts:
     - family: Lato
